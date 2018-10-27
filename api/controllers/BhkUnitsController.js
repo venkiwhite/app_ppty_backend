@@ -5,18 +5,15 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
+
+
 module.exports = {
 
     find: (req, res) => {
         if (req.params.id != undefined) {
             BhkUnits.find({ where: { id: req.params.id } }).exec(function (err, result) {
                 if (err) {
-                    res.set({ 'Content-Type': 'application/json', });
-                    res.status(400);
-                    res.end(JSON.stringify({
-                        "message": "error",
-                        "error": err
-                    }));
+                    responseMessages.error(res, err);
                 } else {
                     res.set({ 'Content-Type': 'application/json', });
                     res.status(200);
@@ -32,12 +29,7 @@ module.exports = {
     create: (req, res) => {
         BhkUnits.create(req.body).fetch().exec((err, result) => {
             if (err) {
-                res.set({ 'Content-Type': 'application/json', });
-                res.status(400);
-                res.end(JSON.stringify({
-                    "message": "error",
-                    "error": err
-                }));
+                responseMessages.error(res, err);
             } else {
                 res.set({ 'Content-Type': 'application/json', });
                 res.status(201);
@@ -50,12 +42,7 @@ module.exports = {
         if (req.params.id != undefined) {
             BhkUnits.update({ where: { id: req.params.id } }).set(req.body).fetch().exec((err, result) => {
                 if (err) {
-                    res.set({ 'Content-Type': 'application/json', });
-                    res.status(400);
-                    res.end(JSON.stringify({
-                        "message": "error",
-                        "error": err
-                    }));
+                    responseMessages.error(res, err);
                 } else {
                     res.set({ 'Content-Type': 'application/json', });
                     res.status(201);
@@ -70,14 +57,9 @@ module.exports = {
 
     destroy: (req, res) => {
         if (req.params.id != undefined) {
-            BhkUnits.destroy({ where: { id: req.params.id } }).fetch().exec((err, result) => {
+            BhkUnits.update({ where: { id: req.params.id } }).set({ isDeleted: true }).fetch().exec((err, result) => {
                 if (err) {
-                    res.set({ 'Content-Type': 'application/json', });
-                    res.status(400);
-                    res.end(JSON.stringify({
-                        "message": "error",
-                        "error": err
-                    }));
+                    responseMessages.error(res, err);
                 } else {
                     res.set({ 'Content-Type': 'application/json', });
                     res.status(200);

@@ -7,8 +7,10 @@
 
 module.exports = {
 
-  attributes: {
+  schema: true,
 
+  attributes: {
+    
     name: {
       type: 'string',
       unique: true,
@@ -22,6 +24,10 @@ module.exports = {
     },
     updatedBy: {
       type: 'string'
+    },
+    isDeleted: {
+        type : "boolean",
+        defaultsTo : false
     }
 
   },

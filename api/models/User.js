@@ -7,6 +7,8 @@
 
 module.exports = {
 
+  schema: true,
+
   attributes: {
 
     username: {
@@ -16,13 +18,7 @@ module.exports = {
     },
     password: {
       type: 'string',
-      required: true,
-      custom: function(value) {
-        // • password should be string with minimum of 5 letters
-        // • contain at least one number, one lowercase, one uppercase
-        // • contain at least one special character in these !@#$%^&*(),.?":{}|<>
-        return _.isString(value) && value.length >= 5 && value.match(/[a-z]/i) && value.match(/[0-9]/) && value.match(/[A-Z]/i) && value.match(/[!@#$%^&*(),.?":{}|<>]/i);
-      }
+      required: true
     },
     firstname: {
       type: 'string',
@@ -41,9 +37,17 @@ module.exports = {
     mobileNumber: {
       type: 'string',
       required: true,
+    },
+    isDeleted: {
+        type : "boolean",
+        defaultsTo : false
     }
 
   },
+
+  validatePassword: (password) => {
+      return _.isString(password) && password.length >= 5 && password.match(/[a-z]/i) && password.match(/[0-9]/) && password.match(/[A-Z]/i) && password.match(/[!@#$%^&*(),.?":{}|<>]/);
+  }
 
 };
 

@@ -5,77 +5,33 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
+
+var userMethods = require('../libraries/userInfo');
+
 module.exports = {
-    
+
     find: (req, res) => {
-        if (req.params.username != undefined) {
-            UserAdmin.find({ where: { username: req.params.username } }).exec(function (err, result) {
-                if (err) {
-                    res.set('Content-Type', 'application/json');
-                    res.badRequest(JSON.stringify(err));
-                } else {
-                    res.set({ 'Content-Type': 'application/json', });
-                    res.status(200);
-                    res.end(JSON.stringify(result));
-                }
-            });
-        }
-        else {
-            res.notFound();
-        }
+        userMethods.findUser(req, res, 'useradmin');
     },
 
     create: (req, res) => {
-        UserAdmin.create(req.body).fetch().exec((err, result) => {
-            if (err) {
-                console.log("err-->", err);
-                res.badRequest(err);
-            } else {
-                res.set({ 'Content-Type': 'application/json', });
-                res.status(201);
-                res.end(JSON.stringify({ "message": "User Created" }));
-            }
-        });
+        userMethods.createUser(req, res, 'useradmin');
     },
 
     update: (req, res) => {
-        if (req.params.username != undefined) {
-            UserAdmin.update({ where: { username: req.params.username } }).set(req.body).fetch().exec((err, result) => {
-                if (err) {
-                    res.badRequest(err);
-                } else {
-                    res.set({ 'Content-Type': 'application/json', });
-                    res.status(201);
-                    res.end(JSON.stringify({ "message": "User details are updated" }));
-                }
-            });
-        }
-        else {
-            res.notFound();
-        }
+        userMethods.updateUser(req, res, 'useradmin');
     },
 
     destroy: (req, res) => {
-        if (req.params.username != undefined) {
-            UserAdmin.destroy({ where: { username: req.params.username } }).fetch().exec((err, result) => {
-                if (err) {
-                    res.set({ 'Content-Type': 'application/json', });
-                    res.status(400);
-                    res.end(JSON.stringify({
-                        "message": "error",
-                        "error": err
-                    }));
-                } else {
-                    res.set({ 'Content-Type': 'application/json', });
-                    res.status(200);
-                    res.end(JSON.stringify({ "message": "User details are deleted" }));
-                }
-            });
-        }
-        else {
-            res.notFound();
-        }
-    }
+        userMethods.deleteUser(req, res, 'useradmin');
+    },
 
-};
+    changePassword: (req, res) => {
+        userMethods.changeUserPassword(req, res, 'useradmin');
+    },
 
+    validate: (req, res) => {
+        userMethods.validateUser(req, res, 'useradmin');
+    },
+
+}

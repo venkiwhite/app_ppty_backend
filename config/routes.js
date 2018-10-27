@@ -25,12 +25,16 @@ module.exports.routes = {
   //routing for user
   'GET /user/:username': 'UserController.find',
   'POST /user': 'UserController.create',
+  'POST /user/changePassword': 'UserController.changePassword',
+  'POST /user/login': 'UserController.validate',
   'PATCH /user/:username': 'UserController.update',
   'DELETE /user/:username': 'UserController.destroy',
 
   //routing for user-admin
   'GET /userAdmin/:username': 'UserAdminController.find',
   'POST /userAdmin': 'UserAdminController.create',
+  'POST /userAdmin/changePassword': 'UserAdminController.changePassword',
+  'POST /userAdmin/login': 'UserAdminController.validate',
   'PATCH /userAdmin/:username': 'UserAdminController.update',
   'DELETE /userAdmin/:username': 'UserAdminController.destroy',
 

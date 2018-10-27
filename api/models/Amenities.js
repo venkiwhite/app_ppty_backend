@@ -24,6 +24,10 @@ module.exports = {
     },
     updatedBy: {
       type: 'string'
+    },
+    isDeleted: {
+        type : "boolean",
+        defaultsTo : false
     }
 
   },
