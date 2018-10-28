@@ -5,25 +5,27 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
-
+const responseMessages = require('../libraries/response');
 
 module.exports = {
 
     find: (req, res) => {
 
-        BhkUnits.find().exec(function (err, result) {
+        BhkUnits.find({
+            where: {
+                isDeleted: false
+            }
+        }).exec(function (err, result) {
             if (err) {
                 responseMessages.error(res, err);
             } else {
-                res.set({ 'Content-Type': 'application/json', });
-                res.status(200);
-                res.end(JSON.stringify(result));
+                responseMessages.responseGet(res, result);
             }
         });
     },
 
     create: (req, res) => {
-        BhkUnits.create(req.body).fetch().exec((err, result) => {
+        BhkUnits.create(req.body).exec((err, result) => {
             if (err) {
                 responseMessages.error(res, err);
             } else {
@@ -36,13 +38,18 @@ module.exports = {
 
     update: (req, res) => {
         if (req.params.id != undefined) {
-            BhkUnits.update({ where: { id: req.params.id } }).set(req.body).fetch().exec((err, result) => {
+            BhkUnits.update({
+                where: {
+                    id: req.params.id,
+                    isDeleted: false
+                }
+            }).set(req.body).fetch().exec((err, result) => {
                 if (err) {
                     responseMessages.error(res, err);
+                } else if (result.length >= 1) {
+                    responseMessages.responseOk(res, { "message": "Bhk details are updated" });
                 } else {
-                    res.set({ 'Content-Type': 'application/json', });
-                    res.status(201);
-                    res.end(JSON.stringify({ "message": "Bhk details are updated" }));
+                    responseMessages.error(res, "The record is not found or already deleted");
                 }
             });
         }
@@ -53,13 +60,18 @@ module.exports = {
 
     destroy: (req, res) => {
         if (req.params.id != undefined) {
-            BhkUnits.update({ where: { id: req.params.id } }).set({ isDeleted: true }).fetch().exec((err, result) => {
+            BhkUnits.update({
+                where: {
+                    id: req.params.id,
+                    isDeleted: false
+                }
+            }).set({ isDeleted: true }).fetch().exec((err, result) => {
                 if (err) {
                     responseMessages.error(res, err);
+                } else if (result.length >= 1) {
+                    responseMessages.responseOk(res, { "message": "Bhk details are deleted" });
                 } else {
-                    res.set({ 'Content-Type': 'application/json', });
-                    res.status(200);
-                    res.end(JSON.stringify({ "message": "Bhk details are deleted" }));
+                    responseMessages.error(res, "The record is not found or already deleted" );
                 }
             });
         }

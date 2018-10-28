@@ -10,11 +10,11 @@ module.exports = {
   schema: true,
 
   attributes: {
-    
+
     name: {
       type: 'string',
-      unique: true,
-      required: true
+      required: true,
+      unique: true
     },
     description: {
       type: 'string'
@@ -26,8 +26,8 @@ module.exports = {
       type: 'string'
     },
     isDeleted: {
-        type : "boolean",
-        defaultsTo : false
+      type: "boolean",
+      defaultsTo: false
     }
 
   },
