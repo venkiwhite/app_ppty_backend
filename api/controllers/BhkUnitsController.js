@@ -11,7 +11,7 @@ module.exports = {
 
     find: (req, res) => {
         if (req.params.id != undefined) {
-            BhkUnits.find({ where: { id: req.params.id } }).exec(function (err, result) {
+            BhkUnits.find().exec(function (err, result) {
                 if (err) {
                     responseMessages.error(res, err);
                 } else {

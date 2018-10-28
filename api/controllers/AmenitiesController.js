@@ -11,7 +11,7 @@ module.exports = {
     
     find: (req, res) => {
         if(req.params.id != undefined){
-            Amenities.find({id: req.params.id}).exec(function(err, result) {
+            Amenities.find().exec(function(err, result) {
                 if (err) {
                     responseMessages.error(res, err);
                 } else {
