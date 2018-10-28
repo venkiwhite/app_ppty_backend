@@ -11,13 +11,13 @@
 module.exports.routes = {
 
   //routing for amenties
-  'GET /amenities/:id': 'AmenitiesController.find',
+  'GET /amenities': 'AmenitiesController.find',
   'POST /amenities': 'AmenitiesController.create',
   'PATCH /amenities/:id': 'AmenitiesController.update',
   'DELETE /amenities/:id': 'AmenitiesController.destroy',
 
   //routing for bhkUnits
-  'GET /bhkUnits/:id': 'BhkUnitsController.find',
+  'GET /bhkUnits': 'BhkUnitsController.find',
   'POST /bhkUnits': 'BhkUnitsController.create',
   'PATCH /bhkUnits/:id': 'BhkUnitsController.update',
   'DELETE /bhkUnits/:id': 'BhkUnitsController.destroy',
