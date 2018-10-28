@@ -20,8 +20,7 @@ module.exports = {
                 res.end(JSON.stringify(result));
             }
         });
-    }
-},
+    },
 
     create: (req, res) => {
         BhkUnits.create(req.body).fetch().exec((err, result) => {
@@ -35,38 +34,38 @@ module.exports = {
         });
     },
 
-        update: (req, res) => {
-            if (req.params.id != undefined) {
-                BhkUnits.update({ where: { id: req.params.id } }).set(req.body).fetch().exec((err, result) => {
-                    if (err) {
-                        responseMessages.error(res, err);
-                    } else {
-                        res.set({ 'Content-Type': 'application/json', });
-                        res.status(201);
-                        res.end(JSON.stringify({ "message": "Bhk details are updated" }));
-                    }
-                });
-            }
-            else {
-                res.notFound();
-            }
-        },
+    update: (req, res) => {
+        if (req.params.id != undefined) {
+            BhkUnits.update({ where: { id: req.params.id } }).set(req.body).fetch().exec((err, result) => {
+                if (err) {
+                    responseMessages.error(res, err);
+                } else {
+                    res.set({ 'Content-Type': 'application/json', });
+                    res.status(201);
+                    res.end(JSON.stringify({ "message": "Bhk details are updated" }));
+                }
+            });
+        }
+        else {
+            res.notFound();
+        }
+    },
 
-            destroy: (req, res) => {
-                if (req.params.id != undefined) {
-                    BhkUnits.update({ where: { id: req.params.id } }).set({ isDeleted: true }).fetch().exec((err, result) => {
-                        if (err) {
-                            responseMessages.error(res, err);
-                        } else {
-                            res.set({ 'Content-Type': 'application/json', });
-                            res.status(200);
-                            res.end(JSON.stringify({ "message": "Bhk details are deleted" }));
-                        }
-                    });
+    destroy: (req, res) => {
+        if (req.params.id != undefined) {
+            BhkUnits.update({ where: { id: req.params.id } }).set({ isDeleted: true }).fetch().exec((err, result) => {
+                if (err) {
+                    responseMessages.error(res, err);
+                } else {
+                    res.set({ 'Content-Type': 'application/json', });
+                    res.status(200);
+                    res.end(JSON.stringify({ "message": "Bhk details are deleted" }));
                 }
-                else {
-                    res.notFound();
-                }
-            }
+            });
+        }
+        else {
+            res.notFound();
+        }
+    }
 };
 
