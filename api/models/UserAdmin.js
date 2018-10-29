@@ -37,12 +37,7 @@ module.exports = {
     mobileNumber: {
       type: 'string',
       required: true,
-    },
-    isDeleted: {
-      type: "boolean",
-      defaultsTo: false
     }
-
   },
 
   validatePassword: (password) => {

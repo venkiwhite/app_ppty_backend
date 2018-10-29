@@ -69,9 +69,31 @@ module.exports.models = {
   ***************************************************************************/
 
   attributes: {
-    createdAt: { type: 'number', autoCreatedAt: true, },
-    updatedAt: { type: 'number', autoUpdatedAt: true, },
-    id: { type: 'number', autoIncrement: true, },
+    createdAt: {
+      type: 'number',
+      autoCreatedAt: true,
+    },
+    updatedAt: {
+      type: 'number',
+      autoUpdatedAt: true,
+    },
+    deletedAt: {
+      type: 'number',
+      autoUpdatedAt: true,
+    },
+    createdBy: {
+      type: 'string'
+    },
+    updatedBy: {
+      type: 'string'
+    },
+    deletedBy: {
+      type: 'string'
+    },
+    isDeleted: {
+      type: "boolean",
+      defaultsTo: false
+    }
     //--------------------------------------------------------------------------
     //  /\   Using MongoDB?
     //  ||   Replace `id` above with this instead:
@@ -119,7 +141,7 @@ module.exports.models = {
   ***************************************************************************/
 
   cascadeOnDestroy: true,
-  migrate : 'safe'
+  migrate: 'safe'
 
 
 };

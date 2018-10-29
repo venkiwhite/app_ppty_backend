@@ -18,18 +18,7 @@ module.exports = {
     },
     description: {
       type: 'string'
-    },
-    createdBy: {
-      type: 'string'
-    },
-    updatedBy: {
-      type: 'string'
-    },
-    isDeleted: {
-      type: "boolean",
-      defaultsTo: false
     }
-
   },
 
 };
