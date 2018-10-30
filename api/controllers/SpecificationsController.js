@@ -63,8 +63,7 @@ module.exports = {
                     isDeleted: false
                 }
             }).set({
-                isDeleted: true,
-                deletedAt: new Date()
+                isDeleted: true
             }).fetch().exec((err, result) => {
                 if (err) {
                     responseMessages.error(res, err);
