@@ -62,7 +62,10 @@ module.exports = {
                     id: req.params.id,
                     isDeleted: false
                 }
-            }).set({ isDeleted: true }).fetch().exec((err, result) => {
+            }).set({
+                isDeleted: true,
+                deletedAt: new Date()
+            }).fetch().exec((err, result) => {
                 if (err) {
                     responseMessages.error(res, err);
                 } else if(result.length >= 1) {

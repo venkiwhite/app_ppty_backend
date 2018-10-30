@@ -1,5 +1,5 @@
 /**
- * BhkUnitsController
+ * SpecificationsController
  *
  * @description :: Server-side actions for handling incoming requests.
  * @help        :: See https://sailsjs.com/docs/concepts/actions
@@ -8,10 +8,9 @@
 const responseMessages = require('../libraries/response');
 
 module.exports = {
-
+  
     find: (req, res) => {
-
-        BhkUnits.find({
+        Specifications.find({
             where: {
                 isDeleted: false
             }
@@ -25,29 +24,27 @@ module.exports = {
     },
 
     create: (req, res) => {
-        BhkUnits.create(req.body).exec((err, result) => {
+        Specifications.create(req.body).fetch().exec((err, result) => {
             if (err) {
                 responseMessages.error(res, err);
-            } else {
-                res.set({ 'Content-Type': 'application/json', });
-                res.status(201);
-                res.end(JSON.stringify({ "message": "Bhk Created" }));
+            }  else {
+                responseMessages.responseOk(res, { "message": "Specifications details is created" });
             }
         });
     },
 
     update: (req, res) => {
         if (req.params.id != undefined) {
-            BhkUnits.update({
-                where: {
+            Specifications.update({
+                where: { 
                     id: req.params.id,
                     isDeleted: false
                 }
             }).set(req.body).fetch().exec((err, result) => {
                 if (err) {
                     responseMessages.error(res, err);
-                } else if (result.length >= 1) {
-                    responseMessages.responseOk(res, { "message": "Bhk details are updated" });
+                } else if(result.length >= 1) {
+                    responseMessages.responseOk(res, { "message": "Specifications details are updated" });
                 } else {
                     responseMessages.error(res, "The record is not found or already deleted");
                 }
@@ -60,7 +57,7 @@ module.exports = {
 
     destroy: (req, res) => {
         if (req.params.id != undefined) {
-            BhkUnits.update({
+            Specifications.update({
                 where: {
                     id: req.params.id,
                     isDeleted: false
@@ -71,10 +68,10 @@ module.exports = {
             }).fetch().exec((err, result) => {
                 if (err) {
                     responseMessages.error(res, err);
-                } else if (result.length >= 1) {
-                    responseMessages.responseOk(res, { "message": "Bhk details are deleted" });
+                } else if(result.length >= 1) {
+                    responseMessages.responseOk(res, { "message": "Specifications details are deleted" });
                 } else {
-                    responseMessages.error(res, "The record is not found or already deleted");
+                    responseMessages.error(res, "The record is not found or already deleted" );
                 }
             });
         }
@@ -82,5 +79,6 @@ module.exports = {
             res.notFound();
         }
     }
+
 };
 

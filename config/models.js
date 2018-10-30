@@ -74,24 +74,17 @@ module.exports.models = {
       autoIncrement: true,
     },
     createdAt: {
-      type: 'number',
+      type: 'string',
       autoCreatedAt: true,
     },
     updatedAt: {
-      type: 'number',
-      autoUpdatedAt: true,
-    },
-    deletedAt: {
-      type: 'number',
+      type: 'string',
       autoUpdatedAt: true,
     },
     createdBy: {
       type: 'string'
     },
     updatedBy: {
-      type: 'string'
-    },
-    deletedBy: {
       type: 'string'
     },
     isDeleted: {

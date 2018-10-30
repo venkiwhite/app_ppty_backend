@@ -22,6 +22,12 @@ module.exports.routes = {
   'PATCH /bhkUnits/:id': 'BhkUnitsController.update',
   'DELETE /bhkUnits/:id': 'BhkUnitsController.destroy',
 
+  //routing for specifications
+  'GET /specifications': 'SpecificationsController.find',
+  'POST /specifications': 'SpecificationsController.create',
+  'PATCH /specifications/:id': 'SpecificationsController.update',
+  'DELETE /specifications/:id': 'SpecificationsController.destroy',
+
   //routing for user
   'GET /user/:username': 'UserController.find',
   'POST /user': 'UserController.create',
