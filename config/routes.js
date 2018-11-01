@@ -33,6 +33,7 @@ module.exports.routes = {
   'POST /user': 'UserController.create',
   'POST /user/changePassword': 'UserController.changePassword',
   'POST /user/login': 'UserController.validate',
+  'GET /userLogout': 'UserController.logout',
   'PATCH /user/:username': 'UserController.update',
   'DELETE /user/:username': 'UserController.destroy',
 
@@ -41,6 +42,7 @@ module.exports.routes = {
   'POST /userAdmin': 'UserAdminController.create',
   'POST /userAdmin/changePassword': 'UserAdminController.changePassword',
   'POST /userAdmin/login': 'UserAdminController.validate',
+  'GET /userAdminLogout': 'UserAdminController.logout',
   'PATCH /userAdmin/:username': 'UserAdminController.update',
   'DELETE /userAdmin/:username': 'UserAdminController.destroy',
 

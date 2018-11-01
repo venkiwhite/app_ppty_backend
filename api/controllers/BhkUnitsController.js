@@ -5,8 +5,6 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
-const responseMessages = require('../libraries/response');
-
 module.exports = {
 
     find: (req, res) => {
@@ -17,27 +15,36 @@ module.exports = {
             }
         }).exec(function (err, result) {
             if (err) {
-                responseMessages.error(res, err);
+                res.badRequest({
+                    "message": "Error",
+                    "details": err
+                });
             } else {
-                responseMessages.responseGet(res, result);
+                res.ok(result);
             }
         });
     },
 
     create: (req, res) => {
+        req.body.createdBy = req.session.user;
         BhkUnits.create(req.body).exec((err, result) => {
             if (err) {
-                responseMessages.error(res, err);
+                res.badRequest({
+                    "message": "Error",
+                    "details": err
+                });
             } else {
-                res.set({ 'Content-Type': 'application/json', });
-                res.status(201);
-                res.end(JSON.stringify({ "message": "Bhk Created" }));
+                res.created({
+                    "message": "Success",
+                    "details":"Bhk details is created"
+                });
             }
         });
     },
 
     update: (req, res) => {
         if (req.params.id != undefined) {
+            req.body.updatedBy = req.session.user;
             BhkUnits.update({
                 where: {
                     id: req.params.id,
@@ -45,11 +52,20 @@ module.exports = {
                 }
             }).set(req.body).fetch().exec((err, result) => {
                 if (err) {
-                    responseMessages.error(res, err);
+                    res.badRequest({
+                        "message": "Error",
+                        "details": err
+                    });
                 } else if (result.length >= 1) {
-                    responseMessages.responseOk(res, { "message": "Bhk details are updated" });
+                    res.created({
+                        "message": "Success",
+                        "details": "Bhk details are updated"
+                    });
                 } else {
-                    responseMessages.error(res, "The record is not found or already deleted");
+                    res.badRequest({
+                        "message": "Error",
+                        "details": "The record is not found or already deleted"
+                    });
                 }
             });
         }
@@ -60,6 +76,7 @@ module.exports = {
 
     destroy: (req, res) => {
         if (req.params.id != undefined) {
+            req.body.updatedBy = req.session.user;
             BhkUnits.update({
                 where: {
                     id: req.params.id,
@@ -69,11 +86,20 @@ module.exports = {
                 isDeleted: true
             }).fetch().exec((err, result) => {
                 if (err) {
-                    responseMessages.error(res, err);
+                    res.badRequest({
+                        "message": "Error",
+                        "details": err
+                    });
                 } else if (result.length >= 1) {
-                    responseMessages.responseOk(res, { "message": "Bhk details are deleted" });
+                    res.ok({
+                        "message": "Success",
+                        "details": "Bhk details are deleted"
+                    });
                 } else {
-                    responseMessages.error(res, "The record is not found or already deleted");
+                    res.badRequest({
+                        "message": "Error",
+                        "details": "The record is not found or already deleted"
+                    });
                 }
             });
         }

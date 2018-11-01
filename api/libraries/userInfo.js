@@ -1,13 +1,17 @@
-const responseMessages = require('./response');
 const hash = require('./passwordHash');
+var JwtServiceController = require('../controllers/JwtServiceController');
+
 module.exports = {
   findUser: (req, res, collection) => {
     if (req.params.username != undefined && req.params.username != null) {
       sails.models[collection].find({ where: { username: req.params.username } }).exec(function (err, result) {
         if (err) {
-          responseMessages.error(res, err);
+          res.badRequest({
+            "message": "Error",
+            "details": err
+          });
         } else {
-          responseMessages.responseGet(res, result);
+          res.ok(result);
         }
       });
     }
@@ -22,14 +26,24 @@ module.exports = {
         req.body.password = hash.encryptPassword(req.body.password);
         sails.models[collection].create(req.body).exec((err, result) => {
           if (err) {
-            responseMessages.error(res, err);
+            res.badRequest({
+              "message": "Error",
+              "details": err
+            });
           } else {
-            responseMessages.created(res, "User Created");
+            req.session.user = result[0].id;
+            res.created({
+              "message": "Success",
+              "details": "User details is created"
+            });
           }
         });
       }
       else {
-        responseMessages.error(res, `Password criteria didn't matched`);
+        res.badRequest({
+          "message": "Error",
+          "details": "Password criteria didn't matched"
+        });
       }
     }
     else {
@@ -45,9 +59,15 @@ module.exports = {
         mobileNumber: req.body.mobileNumber
       }).exec((err, result) => {
         if (err) {
-          responseMessages.error(res, err);
+          res.badRequest({
+            "message": "Error",
+            "details": err
+          });
         } else {
-          responseMessages.created(res, "User details are updated");
+          res.created({
+            "message": "Success",
+            "details": "User details are updated"
+          });
         }
       });
     }
@@ -61,9 +81,15 @@ module.exports = {
     if (req.params.username != undefined && req.params.username != null) {
       sails.models[collection].update({ where: { username: req.params.username } }).set({ isDeleted: true }).exec((err, result) => {
         if (err) {
-          responseMessages.error(res, err);
+          res.badRequest({
+            "message": "Error",
+            "details": err
+          });
         } else {
-          responseMessages.responseOk(res, "User has been deleted");
+          res.ok({
+            "message": "Success",
+            "details": "User details are deleted"
+          });
         }
       });
     }
@@ -78,32 +104,54 @@ module.exports = {
         if (sails.models[collection].validatePassword(req.body.newPassword) != null && sails.models[collection].validatePassword(req.body.newPassword) != false) {
           sails.models[collection].update({ where: { username: req.body.username } }).set({ password: hash.encryptPassword(req.body.newPassword) }).exec((err, result) => {
             if (err) {
-              responseMessages.error(res, err);
+              res.badRequest({
+                "message": "Error",
+                "details": err
+              });
             } else {
-              responseMessages.responseOk(res, "Password has been changed");
+              res.ok({
+                "message": "Success",
+                "details": "Password has been changed"
+              });
             }
           });
         }
         else {
-          responseMessages.error(res, `Password criteria didn't matched`);
+          res.badRequest({
+            "message": "Error",
+            "details": "Password criteria didn't matched"
+          });
         }
       }
       else {
-        responseMessages.error(res, "currentPassword is incorrect");
+        res.badRequest({
+          "message": "Error",
+          "details": "currentPassword is incorrect"
+        });
       }
     }
     else {
-      responseMessages.error(res, "username is required field");
+      res.badRequest({
+        "message": "Error",
+        "details": "username is required field"
+      });
     }
 
   },
 
   validateUser: async (req, res, collection) => {
     if (req.body.username != undefined && req.body.username != null) {
-      if (await comparePassword(res, collection, req.body.username, req.body.password) == true) {
-        responseMessages.responseOk(res, "Login Successful");
+      if (await comparePassword(req, res, collection, req.body.username, req.body.password) == true) {
+        res.ok({
+          "message": "Success",
+          "details": "LoggedIn",
+          "token": JwtServiceController.issue({id: req.session.user})
+        });
       } else {
-        responseMessages.responseOk(res, "Login Failed");
+        res.ok({
+          "message": "Success",
+          "details": "Login Failed"
+        });
       }
     } else {
       res.notFound();
@@ -113,29 +161,39 @@ module.exports = {
 
 }
 
-function comparePassword(res, collection, username, password) {
+function comparePassword(req, res, collection, username, password) {
   return new Promise((resolve, reject) => {
     if (password != undefined && password != null) {
       password = hash.encryptPassword(password);
       sails.models[collection].find({ username: username }).exec(function (err, result) {
         if (err) {
-          responseMessages.error(res, "error occured while retrieving");
+          res.badRequest({
+            "message": "Error",
+            "details": "error occured while retrieving"
+          });
         }
-        else if(result.length >= 1){
+        else if (result.length == 1) {
           if (password == result[0].password) {
+            req.session.user = result[0].id;
             resolve(true);
           }
           else {
             resolve(false);
           }
         }
-        else{
-          responseMessages.error(res, "username is incorrect");
+        else {
+          res.badRequest({
+            "message": "Error",
+            "details": "username is incorrect"
+          });
         }
       });
     }
     else {
-      responseMessages.error(res, "Some fields are required");
+      res.badRequest({
+        "message": "Error",
+        "details": "Some fields are required"
+      });
     }
   });
 }

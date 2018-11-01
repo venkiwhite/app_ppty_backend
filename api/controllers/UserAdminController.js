@@ -34,4 +34,12 @@ module.exports = {
         userMethods.validateUser(req, res, 'useradmin');
     },
 
+    logout: (req, res) => {
+        req.session.user = null;
+        res.ok({
+            "message": "Success",
+            "details": "Logout Successful"
+        });
+    },
+
 }
