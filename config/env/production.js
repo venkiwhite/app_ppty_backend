@@ -150,6 +150,10 @@ module.exports = {
     *                                                                          *
     ***************************************************************************/
     cors: {
+      allRoutes: true,
+      allowOrigins: '*',
+      allowCredentials: false,
+      headers: 'Content-Type, x-access-token'
       // allowOrigins: [
       //   'https://example.com',
       // ]
@@ -242,9 +246,9 @@ module.exports = {
   *                                                                          *
   ***************************************************************************/
   sockets: {
-      onlyAllowOrigins: ["https://pure-spire-63152.herokuapp.com"]
-      
-      
+    onlyAllowOrigins: ["https://pure-spire-63152.herokuapp.com"]
+
+
 
     /***************************************************************************
     *                                                                          *
