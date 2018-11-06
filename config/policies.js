@@ -18,7 +18,7 @@ module.exports.policies = {
   ***************************************************************************/
 
   // '*': true,
-  /*UserController: {
+  UserController: {
     'validate' : true,
     'create': ['isLoggedOut'],
     '*': ['isLoggedIn']
@@ -45,6 +45,6 @@ module.exports.policies = {
     'update': ['isLoggedIn', 'isTokenValid', 'isAdmin'],
     'destroy': ['isLoggedIn', 'isTokenValid', 'isAdmin'],
     '*': ['isLoggedIn']
-  }*/
+  }
 
 };
