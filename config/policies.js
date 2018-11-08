@@ -29,22 +29,22 @@ module.exports.policies = {
     '*': ['isLoggedIn']
   },
   AmenitiesController:{
-    'create': ['isLoggedIn', 'isTokenValid', 'isAdmin'],
-    'update': ['isLoggedIn', 'isTokenValid', 'isAdmin'],
-    'destroy': ['isLoggedIn', 'isTokenValid', 'isAdmin'],
-    '*': ['isLoggedIn', 'isTokenValid']
+    'create': ['isTokenValid', 'isAdmin'],
+    'update': ['isTokenValid', 'isAdmin'],
+    'destroy': ['isTokenValid', 'isAdmin'],
+    '*': ['isTokenValid']
   },
   BhkUnitsController:{
-    'create': ['isLoggedIn', 'isTokenValid', 'isAdmin'],
-    'update': ['isLoggedIn', 'isTokenValid', 'isAdmin'],
-    'destroy': ['isLoggedIn', 'isTokenValid', 'isAdmin'],
-    '*': ['isLoggedIn']
+    'create': ['isTokenValid', 'isAdmin'],
+    'update': ['isTokenValid', 'isAdmin'],
+    'destroy': ['isTokenValid', 'isAdmin'],
+    '*': ['isTokenValid']
   },
   SpecificationsController:{
-    'create': ['isLoggedIn', 'isTokenValid', 'isAdmin'],
-    'update': ['isLoggedIn', 'isTokenValid', 'isAdmin'],
-    'destroy': ['isLoggedIn', 'isTokenValid', 'isAdmin'],
-    '*': ['isLoggedIn']
+    'create': ['isTokenValid', 'isAdmin'],
+    'update': ['isTokenValid', 'isAdmin'],
+    'destroy': ['isTokenValid', 'isAdmin'],
+    '*': ['isTokenValid']
   }
 
 };

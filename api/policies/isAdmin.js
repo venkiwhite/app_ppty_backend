@@ -1,9 +1,9 @@
 module.exports = function(req, res, next){
 
-    if(req.session.user != undefined && req.session.user != null){
+    if(req.decoded.id != undefined && req.decoded.id != null){
         UserAdmin.find({
             where:{
-                id: req.session.user
+                id: req.decoded.id
             }
         }).exec( (err, result) => {
             if(err){
@@ -13,7 +13,7 @@ module.exports = function(req, res, next){
                 }); 
             }
             else if(result.length == 1 ){
-                if(result[0].id == req.session.user){
+                if(result[0].id == req.decoded.id){
                     return next();
                 }
                 else{
@@ -34,9 +34,9 @@ module.exports = function(req, res, next){
 
     }
     else{
-        return res.forbiddenres.forbidden({
+        return res.forbidden({
             "message": "Error",
-            "details": "Please login first"
+            "details": "No user found"
         });
     }
     

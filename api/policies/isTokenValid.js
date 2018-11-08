@@ -4,7 +4,7 @@ module.exports = function (req, res, next) {
     if (req.headers['x-access-token'] != undefined && req.headers['x-access-token'] != null && req.headers['x-access-token'] != "") {
 
         // verifies secret and checks exp
-        jwt.verify(token, sails.config.session.secret, function (err, decoded) {
+        jwt.verify(req.headers['x-access-token'], sails.config.session.secret, function (err, decoded) {
             if (err) {
                 return res.forbidden({
                     "message": "Error",
